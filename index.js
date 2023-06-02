@@ -46,33 +46,32 @@ app.get("/", async (req,res)=>{
       cotizacion.dolarArgentina.precioDolarMepCompra = $(selectorDolarMepCompra).text(),
       cotizacion.dolarArgentina.precioDolarMepVenta = $(selectorDolarMepVenta).text(),
       cotizacion.dolarArgentina.precioDolarTurista = $(selectorDolarTurisata).text(),
-      cotizacion.fecha = new Date().toLocaleDateString()
+      cotizacion.fecha = new Date().toLocaleDateString()    
   } catch (error) {
-    res.json({error})
+    console.log(error);
   }
   try {
     const {data} = await axios.get("https://www.eleconomista.es/cruce/EURUSD")
     const $ = cheerio.load(data)
-      cotizacion.euroDolar = $(selectorEuroDolar).text(),
-    console.log(cotizacion.euroDolar);
+    cotizacion.euroDolar = $(selectorEuroDolar).text()    
   } catch (error) {
-    res.json({error})
+    console.log(error);
   }
   try {
-    const {data} = await axios.get("https://www.goldpricedata.com/es/gold-rates/europe/gram/24k/")
-    const $ = cheerio.load(data)
-    cotizacion.oro.Kt24 = $(selectorOroKt24).text()
+  const {data} = await axios.get("https://www.goldpricedata.com/es/gold-rates/europe/gram/24k/")
+  const $ = cheerio.load(data)
+  cotizacion.oro.Kt24 = $(selectorOroKt24).text()
   } catch (error) {
-    res.json(error)
+    console.log(error);
   }
   try {
-    const {data} = await axios.get("https://www.goldpricedata.com/es/gold-rates/europe/gram/18k/")
-    const $ = cheerio.load(data)
-    cotizacion.oro.Kt18 = $(selectorOroKt18).text()
-    res.json(cotizacion)
-    console.log(cotizacion);
+  const {data} = await axios.get("https://www.goldpricedata.com/es/gold-rates/europe/gram/18k/")
+  const $ = cheerio.load(data)
+  cotizacion.oro.Kt18 = $(selectorOroKt18).text()
   } catch (error) {
-    res.json(error)
+    console.log(error);
   }
+  console.log('Vito ',cotizacion.fecha,'  -Hora:  ', new Date().getHours(),'hs');
+  res.send(cotizacion)
 })
 app.listen(PORT, () => console.log('Servidor iniciado en el puerto', PORT));
