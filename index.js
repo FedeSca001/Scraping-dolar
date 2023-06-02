@@ -32,7 +32,10 @@ let cotizacion = {
         Kt24: "",
         Kt18: ""
       },
-      fecha: ""
+      fecha: {
+        dia: "",
+        hora: ""
+      }
     }
 
 app.get("/", async (req,res)=>{
@@ -46,7 +49,8 @@ app.get("/", async (req,res)=>{
       cotizacion.dolarArgentina.precioDolarMepCompra = $(selectorDolarMepCompra).text(),
       cotizacion.dolarArgentina.precioDolarMepVenta = $(selectorDolarMepVenta).text(),
       cotizacion.dolarArgentina.precioDolarTurista = $(selectorDolarTurisata).text(),
-      cotizacion.fecha = new Date().toLocaleDateString()    
+      cotizacion.fecha.dia = new Date().toLocaleDateString()    
+      cotizacion.fecha.hora = new Date().getHours()  
   } catch (error) {
     console.log(error);
   }
@@ -71,7 +75,7 @@ app.get("/", async (req,res)=>{
   } catch (error) {
     console.log(error);
   }
-  console.log('Vito ',cotizacion.fecha,'  -Hora:  ', new Date().getHours(),'hs');
+  console.log('Vito ',cotizacion.fecha.dia,'  -Hora:  ',cotizacion.fecha.hora,'hs');
   res.send(cotizacion)
 })
 app.listen(PORT, () => console.log('Servidor iniciado en el puerto', PORT));
