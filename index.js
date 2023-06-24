@@ -5,7 +5,6 @@ import axios from "axios";
 const PORT = process.env.PORT || 5000;
 
 const app = express();
-const url = "https://www.cronista.com/MercadosOnline/dolar.html";
 
 const selectorDolarCompra = "#market-scrll-2 > tbody > tr:nth-child(2) > td.buy > a > div > div.buy-value";
 const selectorDolarVenta = "#market-scrll-2 > tbody > tr:nth-child(2) > td.sell > a > div > div.sell-value";
@@ -43,7 +42,7 @@ const updateInterval = 15000;
 
 const updateData = async () => {
   try {
-    const { data } = await axios.get(url);
+    const { data } = await axios.get("https://www.cronista.com/MercadosOnline/dolar.html");
     const $ = cheerio.load(data);
     cotizacion.dolarArgentina.precioDolarBlueCompra = $(selectorDolarCompra).text();
     cotizacion.dolarArgentina.precioDolarBlueVenta = $(selectorDolarVenta).text();
@@ -81,8 +80,6 @@ const updateData = async () => {
   } catch (error) {
     console.log(error);
   }
-
-  console.log('Visto ', cotizacion.fecha.dia, '  -Hora:  ', cotizacion.fecha.hora, 'hs');
 };
 
 updateData();
@@ -93,4 +90,4 @@ app.get("/", (req, res) => {
   res.send(cotizacion);
 });
 
-app.listen(PORT, () => console.log('Servidor iniciado en el puerto', PORT));
+app.listen(PORT, () => console.log('http://localhost:5000/', PORT));
